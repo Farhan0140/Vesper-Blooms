@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'djoser',
     'api',
     'users',
+    'flowers',
+    'order',
     'django_filters',
 ]
 
