@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Flowers, Category
+
+
+admin.site.register(Flowers)
+admin.site.register(Category)
