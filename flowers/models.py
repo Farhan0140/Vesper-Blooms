@@ -22,15 +22,15 @@ class Flowers( models.Model ):
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
-        related_name="flowers",
+        related_name="category",
     )
 
     def __str__(self):
         return self.name
     
 
-class Product_Images( models.Model ):
-    # image = models.ImageField(upload_to="flowers/images/")
+class Flower_Images( models.Model ):
+    image = models.ImageField(upload_to="flowers/images/", blank=True, null=True)
 
     flower = models.ForeignKey(
         Flowers,
