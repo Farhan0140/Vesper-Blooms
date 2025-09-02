@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-
+from cloudinary.models import CloudinaryField
 
 class Category( models.Model ):
     name = models.CharField(max_length=100)
@@ -30,7 +30,7 @@ class Flowers( models.Model ):
     
 
 class Flower_Images( models.Model ):
-    image = models.ImageField(upload_to="flowers/images/", blank=True, null=True)
+    image = CloudinaryField('image')
 
     flower = models.ForeignKey(
         Flowers,
