@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Flowers, Category, Flower_Images
@@ -11,6 +13,8 @@ class Flowers_ViewSet( ModelViewSet ):
     queryset = Flowers.objects.all()
     serializer_class = Flowers_Serializer
     permission_classes = [IS_Admin_ReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields=['category']
 
 
 class Category_ViewSet( ModelViewSet ):
