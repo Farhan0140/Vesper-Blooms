@@ -40,3 +40,52 @@ class Cart_Items( models.Model ):
 
     def __str__(self):
         return f"{self.flower} --> {self.quantity}"
+
+
+class Order(models.Model):
+    NOT_PAID = 'Not Paid'
+    PENDING = 'Pending'
+    READY_TO_SHIP = 'Ready To Ship'
+    SHIPPED = 'Shipped'
+    DELIVERED = 'Delivered'
+    CANCELED = 'Canceled'
+    STATUS_CHOICES = [
+        (NOT_PAID, 'Not Paid'),
+        (READY_TO_SHIP, 'Ready To Ship'),
+        (SHIPPED, 'Shipped'),
+        (DELIVERED, 'Delivered'),
+        (CANCELED, 'Canceled'),
+        (PENDING, 'Pending')
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name="orders"
+    )
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=PENDING)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Order by {self.user.first_name} {self.user.last_name} - {self.status}"
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(
+        Order, 
+        on_delete=models.CASCADE, 
+        related_name="items"
+    )
+
+    flower = models.ForeignKey(Flowers, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.flower.name}"
+    
